@@ -48,7 +48,7 @@ the left thumb lower, left thumb upper, and ring finger
 go to the layer chooser layer
 
 */
-const uint16_t PROGMEM LayerChooser[] = {KC_BTN1, 
+const uint16_t PROGMEM LayerChooser[] = {KC_BTN1,
                                          KC_BTN4,
                                          KC_BTN2,
                                          COMBO_END};
@@ -64,12 +64,24 @@ Define a tap dance so that single clicking the pinky key
 when the layer is correct is copy on click, paste on double click
 
 */
+
 enum {
     TD_COPY_PASTE = 0
 };
 
+void dance_copypaste(qk_tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            SEND_STRING(SS_LCTL("c"));
+            break;
+        case 2:
+            SEND_STRING(SS_LCTL("v"));
+            break;
+    }
+}
+
 qk_tap_dance_action_t tap_dance_actions[] = {
-    [TD_COPY_PASTE] = ACTION_TAP_DANCE_DOUBLE(KC_COPY, KC_PASTE),
+    [TD_COPY_PASTE] = ACTION_TAP_DANCE_FN(dance_copypaste),
 };
 
 /*
@@ -88,9 +100,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 //on keydown
                 is_mo1_used = false;
                 layer_on(_Meta);
-            } else { 
+            } else {
                 //on keyup
-                if (!is_mo1_used) { 
+                if (!is_mo1_used) {
                     tap_code(KC_BTN4);
                 }
                 layer_off(_Meta);
@@ -109,14 +121,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     // LAYOUT( Thumb Bottom, Wheel, Thumb Top, Middle Finger, Ring Finger)
 
-    [_Normal] = LAYOUT(KC_BTN1, 
+    [_Normal] = LAYOUT(KC_BTN1,
                     KC_BTN3,
                     KC_BTN4,
                     KC_BTN2,
                     KC_BTN5
     ),
 
-    [_ChromeOS] = LAYOUT(KC_BTN1, 
+    [_ChromeOS] = LAYOUT(KC_BTN1,
                     KC_BTN3,
                     KC_BTN4,
                     KC_BTN2,
