@@ -69,7 +69,7 @@ enum {
     TD_COPY_PASTE = 0
 };
 
-void dance_copypaste(qk_tap_dance_state_t *state, void *user_data) {
+void dance_copypaste(tap_dance_state_t *state, void *user_data) {
     switch (state->count) {
         case 1:
             SEND_STRING(SS_LCTL("c"));
@@ -80,7 +80,7 @@ void dance_copypaste(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
-qk_tap_dance_action_t tap_dance_actions[] = {
+tap_dance_action_t tap_dance_actions[] = {
     [TD_COPY_PASTE] = ACTION_TAP_DANCE_FN(dance_copypaste),
 };
 
